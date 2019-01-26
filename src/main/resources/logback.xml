@@ -5,7 +5,7 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>${TOPJAVA_ROOT}/log/topjava.log</file>
+        <!--<file>${TOPJAVA_ROOT}/log/topjava.log</file>-->
 
         <encoder>
             <charset>UTF-8</charset>
@@ -20,10 +20,10 @@
         </encoder>
     </appender>
 
-    <logger name="ru.javawebinar.topjava" level="debug"/>
+    <logger name="com.github.karynaiko" level="debug"/>
     <!--<logger name="org.springframework.web.servlet" level="debug"/>-->
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug"/>
-    <logger name="org.springframework.security" level="debug"/>
+
 
     <root level="info">
         <appender-ref ref="file"/>
