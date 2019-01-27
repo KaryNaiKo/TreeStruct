@@ -1,6 +1,9 @@
 package com.github.karynaiko.repository;
 
 import com.github.karynaiko.model.SimpleTree;
+import com.github.karynaiko.model.Tree;
+import com.github.karynaiko.model.TreeElement;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +24,18 @@ public class TreeRepositoryImp implements TreeRepository{
 
     @Override
     public void delete(SimpleTree entity) {
-
+        SimpleTree parent = (SimpleTree) entity.getParent();
+        if (parent == null) {
+            throw new ConstraintViolationException("Can not delete root", null, null);
+        }
+        parent.removeChildTree(entity);
+        em.remove(entity);
+        update(parent);
     }
 
     @Override
     public void update(SimpleTree entity) {
-
+        em.merge(entity);
     }
 
     @Transactional
@@ -35,16 +44,38 @@ public class TreeRepositoryImp implements TreeRepository{
         em.persist(entity);
     }
 
-    public SimpleTree findEntireTree() {
-//        Integer rootId = (Integer) em.createNamedQuery("findRootNode")
-//                .setParameter("aClass", SimpleTree.class.getAnnotation(DiscriminatorValue.class).value())
-//                .getSingleResult();
-
-        List list = em.createNamedQuery("findAllNodesWithTheirChildren")
+    public Integer getRootId() {
+        return (Integer) em.createNamedQuery("findRootNode")
                 .setParameter("aClass", SimpleTree.class.getAnnotation(DiscriminatorValue.class).value())
-                .getResultList();
+                .getSingleResult();
+    }
 
-        //return em.getReference(SimpleTree.class, rootId);
-        return (SimpleTree) list.get(0);
+    @Override
+    public SimpleTree findWithChildenById(int id) {
+         return (SimpleTree) em.createNamedQuery("findAllNodesWithTheirChildren")
+                .setParameter("aClass", SimpleTree.class.getAnnotation(DiscriminatorValue.class).value())
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
+    public SimpleTree findByIdForDepth(Integer id, Integer depth) {
+        SimpleTree treeById = getById(id);
+
+        return initializeToDepth(depth, treeById);
+    }
+
+    SimpleTree initializeToDepth(int depth, SimpleTree tree) {
+        if (tree == null) return null;
+        initializeToDepth(0, depth, tree);
+        return tree;
+    }
+
+    private void initializeToDepth(int currentDepth, int depth, SimpleTree tree) {
+        if (currentDepth++ == depth) return;
+
+        for (Tree child : (List<Tree<TreeElement>>) tree.getChildren()) {
+            initializeToDepth(currentDepth, depth, (SimpleTree) child);
+        }
     }
 }

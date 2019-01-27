@@ -1,5 +1,6 @@
 package com.github.karynaiko.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import org.hibernate.Hibernate;
@@ -13,7 +14,7 @@ import java.util.*;
 
 @NamedQueries({
         @NamedQuery(name = "findRootNode", query = "select id from Tree t where t.class = :aClass and t.parent = null"),
-        @NamedQuery(name = "findAllNodesWithTheirChildren", query = "from Tree t left join fetch t.children where t.class = :aClass")
+        @NamedQuery(name = "findAllNodesWithTheirChildren", query = "SELECT DISTINCT t from Tree t left join fetch t.children where t.class = :aClass and t.id = :id")
 })
 
 @Entity
@@ -26,6 +27,7 @@ public abstract class Tree<T extends TreeElement> {
 
     private Integer id;
     private T element;
+    @JsonIgnore
     private Tree<T> parent;
     private List<Tree<T>> children = new LinkedList<>();
 

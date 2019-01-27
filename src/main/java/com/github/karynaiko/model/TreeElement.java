@@ -1,5 +1,6 @@
 package com.github.karynaiko.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -16,6 +17,7 @@ public class TreeElement {
     private String name;
     private String description;
 
+    @JsonIgnore
     private Tree<? extends TreeElement> tree;
 
     TreeElement() {

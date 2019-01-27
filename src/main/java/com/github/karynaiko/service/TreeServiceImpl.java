@@ -20,6 +20,12 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
+    public SimpleTree getRoot() {
+        Integer rootId = repository.getRootId();
+        return repository.findWithChildenById(rootId);
+    }
+
+    @Override
     public void delete(SimpleTree entity) {
         repository.delete(entity);
     }
@@ -35,7 +41,11 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
-    public SimpleTree findEntireTree() {
-        return repository.findEntireTree();
+    public SimpleTree findWithChildenById(int id) {
+        return repository.findWithChildenById(id);
+    }
+
+    public SimpleTree findByIdForDepth(Integer id, Integer depth) {
+        return repository.findByIdForDepth(id, depth);
     }
 }
