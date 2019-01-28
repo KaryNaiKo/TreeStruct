@@ -1,6 +1,8 @@
 package com.github.karynaiko.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import org.hibernate.Hibernate;
@@ -26,6 +28,7 @@ import java.util.*;
 public abstract class Tree<T extends TreeElement> {
 
     private Integer id;
+    @JsonProperty("text")
     private T element;
     @JsonIgnore
     private Tree<T> parent;

@@ -22,6 +22,6 @@ public class AjaxController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public SimpleTree getById(@PathVariable("id") int id) {
-        return service.getById(id);
+        return service.findWithChildenById(id);
     }
 }
