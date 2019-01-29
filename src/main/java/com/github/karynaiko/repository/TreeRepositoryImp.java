@@ -22,8 +22,10 @@ public class TreeRepositoryImp implements TreeRepository{
         return em.find(SimpleTree.class, id);
     }
 
+    @Transactional
     @Override
-    public void delete(SimpleTree entity) {
+    public void delete(int id) {
+        SimpleTree entity = findWithChildenById(id);
         SimpleTree parent = (SimpleTree) entity.getParent();
         if (parent == null) {
             throw new ConstraintViolationException("Can not delete root", null, null);
@@ -33,6 +35,7 @@ public class TreeRepositoryImp implements TreeRepository{
         update(parent);
     }
 
+    @Transactional
     @Override
     public void update(SimpleTree entity) {
         em.merge(entity);
@@ -56,26 +59,5 @@ public class TreeRepositoryImp implements TreeRepository{
                 .setParameter("aClass", SimpleTree.class.getAnnotation(DiscriminatorValue.class).value())
                 .setParameter("id", id)
                 .getSingleResult();
-    }
-
-    @Override
-    public SimpleTree findByIdForDepth(Integer id, Integer depth) {
-        SimpleTree treeById = getById(id);
-
-        return initializeToDepth(depth, treeById);
-    }
-
-    SimpleTree initializeToDepth(int depth, SimpleTree tree) {
-        if (tree == null) return null;
-        initializeToDepth(0, depth, tree);
-        return tree;
-    }
-
-    private void initializeToDepth(int currentDepth, int depth, SimpleTree tree) {
-        if (currentDepth++ == depth) return;
-
-        for (Tree child : (List<Tree<TreeElement>>) tree.getChildren()) {
-            initializeToDepth(currentDepth, depth, (SimpleTree) child);
-        }
     }
 }

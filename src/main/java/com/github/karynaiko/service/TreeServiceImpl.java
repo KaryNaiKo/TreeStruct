@@ -26,8 +26,8 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
-    public void delete(SimpleTree entity) {
-        repository.delete(entity);
+    public void delete(int id) {
+        repository.delete(id);
     }
 
     @Override
@@ -45,7 +45,4 @@ public class TreeServiceImpl implements TreeService {
         return repository.findWithChildenById(id);
     }
 
-    public SimpleTree findByIdForDepth(Integer id, Integer depth) {
-        return repository.findByIdForDepth(id, depth);
-    }
 }

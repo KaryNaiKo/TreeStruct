@@ -2,7 +2,6 @@ package com.github.karynaiko.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import org.hibernate.Hibernate;
@@ -69,7 +68,7 @@ public abstract class Tree<T extends TreeElement> {
         this.element = element;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     public Tree<T> getParent() {
         return parent;
     }
@@ -130,7 +129,7 @@ public abstract class Tree<T extends TreeElement> {
 
     @Override
     public String toString() {
-        return getPath();
+        return String.valueOf(id);
     }
 
     public String prettyPrint() {

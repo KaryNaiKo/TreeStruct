@@ -17,29 +17,48 @@ $.ajaxSetup({
 
 $(function () {
     $('#jstree')
-        .on('load_node.jstree', function (e, data) {
-            $("#jstree").jstree(true).hide_node(data);
-        })
         .jstree({
-        "plugins": ["json_data", "dnd", "contextmenu"],
-        'core': {
-            "themes": {
-                "theme": "default",
-                "dots": false,
-                "icons": true,
-                "url": "resources/css/themes/default/style.css"
-            },
-            'data': {
-                'url': function (node) {
-                    return node.id === '#' ?
-                        'ajax/tree' : 'ajax/tree/' + node.id;
+            "plugins": ["json_data", "dnd", "contextmenu"],
+            'core': {
+                "themes": {
+                    "theme": "default",
+                    "dots": false,
+                    "icons": true,
+                    "url": "resources/css/themes/default/style.css"
                 },
-                'data': function (node) {
-                    return {
-                        'id': node.id
-                    };
+                'data': {
+                    'url': function (node) {
+                        return node.id === '#' ?
+                            'ajax/tree?operation=get_root' : 'ajax/tree?operation=get_node_by_id&id=' + node.id;
+                    },
+                    'data': function (node) {
+                        return {
+                            'id': node.id
+                        };
+                    }
+                },
+                'check_callback' : function(o, n, p, i, m) {
+                    if(m && m.dnd && m.pos !== 'i') { return false; }
+                    if(o === "move_node" || o === "copy_node") {
+                        if(this.get_node(n).parent === this.get_node(p).id) { return false; }
+                    }
+                    return true;
                 }
             }
-        }
-    });
+        })
+        .on('delete_node.jstree', function (e, data) {
+            $.get('ajax/tree?operation=delete_node', { 'id' : data.node.id })
+                .fail(function () {
+                    data.instance.refresh();
+                });
+        })
+        .on('rename_node.jstree', function (e, data) {
+            $.get('ajax/tree?operation=rename_node', {'id': data.node.id, 'text': data.text})
+                .done(function (d) {
+                    data.instance.set_id(data.node, d.id);
+                })
+                .fail(function () {
+                    data.instance.refresh();
+                });
+        });
 });

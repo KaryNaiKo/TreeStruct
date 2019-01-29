@@ -18,5 +18,5 @@ CREATE TABLE tree_element
     tree_id         INTEGER NOT NULL,
     description     VARCHAR(255),
     name            VARCHAR(255),
-    FOREIGN KEY (tree_id) REFERENCES tree (id)
+    FOREIGN KEY (tree_id) REFERENCES tree (id) ON DELETE CASCADE
 );
