@@ -7,6 +7,6 @@ public interface TreeService {
     SimpleTree getRoot();
     void delete (int id);
     void update (SimpleTree entity);
-    void create(SimpleTree entity);
+    SimpleTree create(int parentId, String text);
     SimpleTree findWithChildenById(int id);
 }

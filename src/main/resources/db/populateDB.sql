@@ -2,13 +2,13 @@ DELETE FROM tree_element;
 DELETE FROM tree;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-insert into tree (tree_type, id, parent_id, children_order) values
-  ('SIMPLE_TREE', 100000, null, null),
-  ('SIMPLE_TREE',	100001,	100000,	0),
-  ('SIMPLE_TREE',	100002,	100000,	1),
-  ('SIMPLE_TREE',	100003,	100000,	2),
-  ('SIMPLE_TREE',	100004,	100000,	3),
-  ('SIMPLE_TREE',	100005,	100004,	0);
+insert into tree (tree_type, parent_id, children_order) values
+  ('SIMPLE_TREE', null, null),
+  ('SIMPLE_TREE',	100000,	0),
+  ('SIMPLE_TREE',	100000,	1),
+  ('SIMPLE_TREE',	100000,	2),
+  ('SIMPLE_TREE',	100000,	3),
+  ('SIMPLE_TREE',	100004,	0);
 
 
 

@@ -36,8 +36,8 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
-    public void create(SimpleTree entity) {
-        repository.create(entity);
+    public SimpleTree create(int parentId, String text) {
+        return repository.create(parentId, text);
     }
 
     @Override

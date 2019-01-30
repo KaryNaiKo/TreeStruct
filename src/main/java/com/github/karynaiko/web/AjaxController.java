@@ -19,6 +19,7 @@ public class AjaxController {
     @GetMapping(value = "/ajax/tree", produces = MediaType.APPLICATION_JSON_VALUE)
     public SimpleTree modifyNode(@RequestParam Map<String,String> allRequestParams) {
         SimpleTree node = null;
+        String text;
         int id;
         if(allRequestParams != null && !allRequestParams.isEmpty()) {
             String operation = allRequestParams.get("operation");
@@ -32,11 +33,13 @@ public class AjaxController {
                         node = service.findWithChildenById(id);
                         break;
                     case "create_node":
-
+                        id = Integer.parseInt(Objects.requireNonNull(allRequestParams.get("id")));
+                        text = Objects.requireNonNull(allRequestParams.get("text"));
+                        node = service.create(id, text);
                         break;
                     case "rename_node":
                         id = Integer.parseInt(Objects.requireNonNull(allRequestParams.get("id")));
-                        String text = Objects.requireNonNull(allRequestParams.get("text"));
+                        text = Objects.requireNonNull(allRequestParams.get("text"));
                         node = service.findWithChildenById(id);
                         node.getElement().setName(text);
                         service.update(node);

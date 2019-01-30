@@ -43,8 +43,13 @@ public class TreeRepositoryImp implements TreeRepository{
 
     @Transactional
     @Override
-    public void create(SimpleTree entity) {
-        em.persist(entity);
+    public SimpleTree create(int parentId, String text) {
+        SimpleTree parent = findWithChildenById(parentId);
+        TreeElement child = new TreeElement(text, "created by user");
+
+        SimpleTree childTree = parent.addChildTree(child);
+        em.persist(parent);
+        return childTree;
     }
 
     public Integer getRootId() {
