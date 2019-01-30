@@ -57,6 +57,15 @@ $(function () {
         })
         .on('delete_node.jstree', function (e, data) {
             $.get('ajax/tree?operation=delete_node', { 'id' : data.node.id })
+                .done(function () {
+                    data.instance.refresh();
+                });
+        })
+        .on('move_node.jstree', function (e, data) {
+            $.get('ajax/tree?operation=move_node', { 'id' : data.node.id, 'parent' : data.parent })
+                .done(function (d) {
+                    data.instance.refresh();
+                })
                 .fail(function () {
                     data.instance.refresh();
                 });

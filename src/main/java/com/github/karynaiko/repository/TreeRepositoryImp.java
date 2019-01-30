@@ -52,6 +52,16 @@ public class TreeRepositoryImp implements TreeRepository{
         return childTree;
     }
 
+    @Transactional
+    @Override
+    public SimpleTree move(int id, int parentId) {
+        SimpleTree child = em.find(SimpleTree.class, id);
+        SimpleTree parent = findWithChildenById(parentId);
+        child.move(parent);
+        em.persist(parent);
+        return parent;
+    }
+
     public Integer getRootId() {
         return (Integer) em.createNamedQuery("findRootNode")
                 .setParameter("aClass", SimpleTree.class.getAnnotation(DiscriminatorValue.class).value())

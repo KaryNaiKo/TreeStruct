@@ -1,7 +1,6 @@
 package com.github.karynaiko.repository;
 
 import com.github.karynaiko.model.SimpleTree;
-import com.github.karynaiko.model.Tree;
 
 public interface TreeRepository {
     SimpleTree getById(int id);
@@ -10,4 +9,5 @@ public interface TreeRepository {
     void update (SimpleTree entity);
     SimpleTree create(int parentId, String text);
     SimpleTree findWithChildenById(int id);
+    SimpleTree move(int id, int parentId);
 }

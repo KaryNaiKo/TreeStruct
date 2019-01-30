@@ -17,7 +17,7 @@ public class AjaxController {
     private TreeService service;
 
     @GetMapping(value = "/ajax/tree", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SimpleTree modifyNode(@RequestParam Map<String,String> allRequestParams) {
+    public ResponseEntity<SimpleTree> modifyNode(@RequestParam Map<String,String> allRequestParams) {
         SimpleTree node = null;
         String text;
         int id;
@@ -49,10 +49,9 @@ public class AjaxController {
                         service.delete(id);
                         break;
                     case "move_node":
-
-                        break;
-                    case "copy_node":
-
+                        id = Integer.parseInt(Objects.requireNonNull(allRequestParams.get("id")));
+                        int parentId = Integer.parseInt(Objects.requireNonNull(allRequestParams.get("parent")));
+                        node = service.move(id, parentId);
                         break;
                     default:
                         //throw new Exception("Unsupported operation: " + operation);
@@ -60,6 +59,6 @@ public class AjaxController {
                 }
             }
         }
-        return node;
+        return new ResponseEntity<>(node, HttpStatus.OK);
     }
 }

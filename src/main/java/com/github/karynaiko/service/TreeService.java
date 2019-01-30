@@ -9,4 +9,5 @@ public interface TreeService {
     void update (SimpleTree entity);
     SimpleTree create(int parentId, String text);
     SimpleTree findWithChildenById(int id);
+    SimpleTree move(int id, int parentId);
 }

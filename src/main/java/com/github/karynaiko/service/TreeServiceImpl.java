@@ -41,6 +41,11 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
+    public SimpleTree move(int id, int parentId) {
+        return repository.move(id, parentId);
+    }
+
+    @Override
     public SimpleTree findWithChildenById(int id) {
         return repository.findWithChildenById(id);
     }
