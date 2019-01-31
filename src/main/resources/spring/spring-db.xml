@@ -63,7 +63,4 @@
     <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
-
-    <bean class="com.github.karynaiko.repository.JpaUtil"/>
-
 </beans>

@@ -19,6 +19,13 @@ $(function () {
     $('#jstree')
         .jstree({
             "plugins": ["json_data", "dnd", "contextmenu"],
+            'contextmenu' : {
+                'items' : function(node) {
+                    var tmp = $.jstree.defaults.contextmenu.items();
+                    tmp.ccp = false;
+                    return tmp;
+                }
+            },
             'core': {
                 "themes": {
                     "theme": "default",

@@ -8,6 +8,6 @@ public interface TreeRepository {
     void delete (int id);
     void update (SimpleTree entity);
     SimpleTree create(int parentId, String text);
-    SimpleTree findWithChildenById(int id);
+    SimpleTree findWithChildrenById(int id);
     SimpleTree move(int id, int parentId);
 }

@@ -22,7 +22,7 @@ public class TreeServiceImpl implements TreeService {
     @Override
     public SimpleTree getRoot() {
         Integer rootId = repository.getRootId();
-        return repository.findWithChildenById(rootId);
+        return repository.findWithChildrenById(rootId);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class TreeServiceImpl implements TreeService {
 
     @Override
     public SimpleTree findWithChildenById(int id) {
-        return repository.findWithChildenById(id);
+        return repository.findWithChildrenById(id);
     }
 
 }

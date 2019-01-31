@@ -31,6 +31,11 @@ public class AjaxController {
                     case "get_node_by_id":
                         id = Integer.parseInt(Objects.requireNonNull(allRequestParams.get("id")));
                         node = service.findWithChildenById(id);
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case "create_node":
                         id = Integer.parseInt(Objects.requireNonNull(allRequestParams.get("id")));
@@ -54,8 +59,7 @@ public class AjaxController {
                         node = service.move(id, parentId);
                         break;
                     default:
-                        //throw new Exception("Unsupported operation: " + operation);
-                        break;
+                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
             }
         }
