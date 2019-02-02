@@ -146,9 +146,6 @@ public abstract class Tree<T extends TreeElement> {
         return stringBuilder.toString();
     }
 
-    /*
-     * NOTE: this will find the first leftmost element with the specified names if there are multiple elements with the same name.
-     */
     public Tree<T> findTree(String elementName) {
         return findTree(this, elementName);
     }
